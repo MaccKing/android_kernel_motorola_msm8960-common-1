@@ -198,13 +198,26 @@ void __sched __down_write_nested(struct rw_semaphore *sem, int subclass)
 
 	raw_spin_lock_irqsave(&sem->wait_lock, flags);
 
+	if (sem->activity == 0 && list_empty(&sem->wait_list)) {
+		/* granted */
+		sem->activity = -1;
+		raw_spin_unlock_irqrestore(&sem->wait_lock, flags);
+		goto out;
+	}
+
+	tsk = current;
+	set_task_state(tsk, TASK_UNINTERRUPTIBLE);
+
 	/* set up my own style of waitqueue */
 	tsk = current;
 	waiter.task = tsk;
 	waiter.flags = RWSEM_WAITING_FOR_WRITE;
 	list_add_tail(&waiter.list, &sem->wait_list);
 
-	/* wait for someone to release the lock */
+	/* we don't need to touch the semaphore struct anymore */
+	raw_spin_unlock_irqrestore(&sem->wait_lock, flags);
+
+	/* wait to be given the lock */
 	for (;;) {
 		/*
 		 * That is the key to support write lock stealing: allows the
