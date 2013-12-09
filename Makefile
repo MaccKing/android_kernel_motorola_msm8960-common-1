@@ -361,13 +361,13 @@ CC		= $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-MODFLAGS	= -DMODULE -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -ffast-math  -fsingle-precision-constant -mtune=cortex-a9 -marm -mfpu=vfpv4-d16 -ftree-vectorize -mvectorize-with-neon-quad -funroll-loops -mvectorize-with-neon-quad
+MODFLAGS	= -DMODULE -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -ffast-math  -fsingle-precision-constant -mtune=cortex-a15 -marm -mfpu=vfpv4-d16 -ftree-vectorize -mvectorize-with-neon-quad -funroll-loops -mvectorize-with-neon-quad
 
 CFLAGS_MODULE   = $(MODFLAGS)
 AFLAGS_MODULE   = $(MODFLAGS)
 LDFLAGS_MODULE  = -T $(srctree)/scripts/module-common.lds
-CFLAGS_KERNEL	= -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -ffast-math  -fsingle-precision-constant -mtune=cortex-a9 -marm -mfpu=vfpv4-d16 -ftree-vectorize -mvectorize-with-neon-quad -funroll-loops -mvectorize-with-neon-quad
-AFLAGS_KERNEL 	= -fgcse -fsingle-precision-constant -mtune=cortex-a9 -mfpu=vfpv4-d16 -ftree-vectorize
+CFLAGS_KERNEL	= -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -ffast-math  -fsingle-precision-constant -mtune=cortex-a15 -marm -mfpu=vfpv4-d16 -ftree-vectorize -mvectorize-with-neon-quad -funroll-loops -mvectorize-with-neon-quad
+AFLAGS_KERNEL 	= -fgcse -fsingle-precision-constant -mtune=cortex-a15 -mfpu=vfpv4-d16 -ftree-vectorize
 
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
@@ -386,7 +386,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
                    -Werror-implicit-function-declaration \
                    -Wno-format-security \
                    -fno-delete-null-pointer-checks -mno-unaligned-access \
-                   -march=armv7-a -mtune=cortex-a9 -mfpu=neon \
+                   -march=armv7-a -mtune=cortex-a15 -mfpu=neon \
                    -fpredictive-commoning -fgcse-after-reload -ftree-vectorize -ffast-math \
                    -fipa-cp-clone -fsingle-precision-constant -pipe -fsched-spec-load -fforce-addr\
                    -fgcse-lm -fgcse-sm -funswitch-loops -Ofast
